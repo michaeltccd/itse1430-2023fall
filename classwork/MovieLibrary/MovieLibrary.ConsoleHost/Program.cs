@@ -4,14 +4,16 @@
 //  IsBlackAndWhite
 // Operations: Add, edit, view, delete
 
+//Movie details
 string title = "", description = "";
-//title = "";
 string genre = "", rating = "";
 
+Int32 len; // int len;
 int length = 0, releaseYear = 1900;
-
-decimal budget = 125.45M;
 bool isBlackAndWhite = false;
+
+//Not using
+//decimal budget = 125.45M;
 
 //Entry point
 var done = false;
@@ -116,41 +118,61 @@ void EditMovie()
 
 void DeleteMovie()
 {
-    if (!Confirm("Are you sure you want to delete the movie (Y/N)?"))
+    if (String.IsNullOrEmpty(title))
         return;
 
-    Console.WriteLine("Not implemented yet");
+    if (!Confirm($"Are you sure you want to delete the movie '{title}' (Y/N)?"))
+        return;
+
+    title = "";
 }
 
 //Display the movie details
 void ViewMovie ()
 {
-    string someValue = 10.ToString(); //"10"
-    someValue = (4 + 5).ToString(); // "9"
-    
-    //Escape characters
-    someValue = "Hello\"Bob";
-    string filePath = "C:\\windows\\temp";
-    filePath = @"C:\windows\temp";  //Verbatim string
-    //filePath = """file="somevalue";file="somevalue2""""
+    // Length of a string
+    int len = title.Length;
 
-    //Console.WriteLine();
+    if (String.IsNullOrEmpty(title))
+    {
+        Console.WriteLine("No movies available");
+        return;
+    };
+
+    Console.WriteLine();
     //Console.WriteLine("--------------");
-    Console.WriteLine("\n--------------");
+    Console.WriteLine("".PadLeft(15, '-'));
+    
+    //Console.WriteLine("\n--------------");
 
     Console.WriteLine(title);
 
+    //String formatting
     //Run Length: ## mins
     //Console.WriteLine("Run Length: " + length + " mins");
-    Console.WriteLine("Run Length: " + length.ToString() + " mins");
-    
+    // 1. Concat or Join
+    //Console.WriteLine("Run Length: " + length.ToString() + " mins");
+    //var message = String.Concat("Run Length: ", length.ToString(), " mins");
+    //Console.WriteLine(message);
+    //var message2 = String.Join(" ", "Run Length:", length, "mins");
+    // 2. String.Format
+    //string message = String.Format("Run Length: {0} mins", length);
+    //Console.WriteLine(message);
+    //decimal price = 45.45252;
+    //String.Format("{0:C}", price);  //$45.45
+    //Console.WriteLine("Run Length: {0} mins", length);    
+    // 3. String interpolation
+    string message = $"Run Length: {length} mins";
+    Console.WriteLine(message);
+
     //Released yyyy
-    Console.WriteLine("Released " + releaseYear);
+    //Console.WriteLine("Released " + releaseYear);
+    Console.WriteLine($"Released {releaseYear}");
 
     Console.WriteLine(genre);
 
     //MPAA Rating: 
-    Console.WriteLine("MPAA Rating: " + rating);
+    Console.WriteLine($"MPAA Rating: {rating}");
 
     //Black and White? 
     // Conditional: Eb ? Et : Ef
@@ -159,13 +181,24 @@ void ViewMovie ()
     //    format = "Black and White";
 
     //V2
-    string format = isBlackAndWhite ? "Black and White" : "Color";
-    Console.WriteLine("Format: " + format);
+    string format = isBlackAndWhite ? "Black and White" : "Color";    
+    Console.WriteLine("Format: ".PadLeft(10) + format);
 
     //V3
     //Console.WriteLine("Format: " + (isBlackAndWhite ? "Black and White" : "Color"));
 
     Console.WriteLine(description);
+
+    //More string functions
+    //string path1 = @"C:\temp";
+    //string path2 = @"Windows";
+    //if (!path1.EndsWith("\\"))
+    //    path1 = path1 + "\\";
+    //if (path2.StartsWith("\\"))
+    //    ///path2 = path2.Substring(1);
+    //    path2 = path2.Trim('\\');
+    //string path3 = path1 + "\\" + path2;
+
 }
 
 bool Confirm ( string message )
@@ -225,7 +258,8 @@ int ReadInt ( string message, int minimumValue )
         //int result;
         //if (Int32.TryParse(value, out result))
         if (Int32.TryParse(value, out var result))
-            if (result >= minimumValue)
+        //if (int.TryParse(value, out var result))
+                if (result >= minimumValue)
                 return result;
 
         Console.WriteLine("Value must be at least " + minimumValue);
@@ -239,13 +273,22 @@ string ReadRating ( string message )
     do
     {
         string value = Console.ReadLine();
-        if (value == "PG")
+        //if (value == "PG")
+        // 1. String compare 1 -> Don't use
+        //if (value.ToUpper() == "PG")
+        //value = value.ToLower();
+        //if (value == "pg")
+        // 2. String compare 2 -> 
+        //if (String.Compare(value, "PG", true) == 0) // String.Compare(value, "PG", StringComparison.CurrentCultureIgnoreCase)
+        //if (value.CompareTo("PG") == 0)
+        // 3. String Equals -> PREFERRED
+        if (String.Equals(value, "PG", StringComparison.CurrentCultureIgnoreCase))
             return "PG";
-        else if (value == "G")
+        else if (String.Equals(value, "G", StringComparison.CurrentCultureIgnoreCase))
             return "G";
-        else if (value == "PG-13")
+        else if (String.Equals(value, "PG-13", StringComparison.CurrentCultureIgnoreCase))
             return "PG-13";
-        else if (value == "R")
+        else if (String.Equals(value, "R", StringComparison.CurrentCultureIgnoreCase))
             return "R";
         //else if (value == "") // else if (value == String.Empty
         //else if (value == "" || value == null) //Don't do this
@@ -254,10 +297,6 @@ string ReadRating ( string message )
 
         Console.WriteLine("Invalid rating");
     } while (true);
-
-    string emptyValue;
-    var areEqual = "" == String.Empty;  //true
-    areEqual = "" == null;  //false
 }
 
 string ReadString ( string message, bool isRequired )
@@ -266,7 +305,7 @@ string ReadString ( string message, bool isRequired )
 
     do
     {
-        string value = Console.ReadLine();
+        string value = Console.ReadLine().Trim();
 
         if (!isRequired || !String.IsNullOrEmpty(value))
             return value;
@@ -281,6 +320,20 @@ string ReadString ( string message, bool isRequired )
     } while (true);    
 }
 
+#region Demo Code
+
+//void Demo ()
+//{
+//Playing with strings
+//string someValue = 10.ToString(); //"10"
+//someValue = (4 + 5).ToString(); // "9"
+
+////Escape characters
+//someValue = "Hello\"Bob";
+//string filePath = "C:\\windows\\temp";
+//filePath = @"C:\windows\temp";  //Verbatim string
+////filePath = """file="somevalue";file="somevalue2""""
+
 //double someFloatingValue = 3.14159;
 //char letterGrade = 'A';
 
@@ -292,3 +345,11 @@ string ReadString ( string message, bool isRequired )
 //    Console.WriteLine(title);
 //    Console.WriteLine(length);
 //}
+
+
+//Playing with strings 2
+//string emptyValue;
+//var areEqual = "" == String.Empty;  //true
+//areEqual = "" == null;  //false
+//}
+#endregion
