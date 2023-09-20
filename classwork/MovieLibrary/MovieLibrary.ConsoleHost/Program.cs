@@ -64,18 +64,26 @@ Movie AddMovie ()
 {
     var movie = new Movie();
 
-    movie.title = ReadString("Enter a title: ", true);
-    movie.description = ReadString("Enter a description: ", false);
+    do
+    {
+        movie.title = ReadString("Enter a title: ", true);
+        movie.description = ReadString("Enter a description: ", false);
 
-    movie.length = ReadInt("Enter the run length (in mins): ", 0);
-    movie.releaseYear = ReadInt("Enter the release year: ", 1900);
+        movie.length = ReadInt("Enter the run length (in mins): ", 0);
+        movie.releaseYear = ReadInt("Enter the release year: ", 1900);
 
-    movie.genre = ReadString("Enter a genre: ", false);
-    movie.rating = ReadRating("Enter a rating: ");
+        movie.genre = ReadString("Enter a genre: ", false);
+        movie.rating = ReadRating("Enter a rating: ");
 
-    movie.isBlackAndWhite = ReadBoolean("Black and White (Y/N)?");
+        movie.isBlackAndWhite = ReadBoolean("Black and White (Y/N)?");
 
-    return movie;
+        //Validate
+        var error = movie.Validate();   //Validate(movie)
+        if (String.IsNullOrEmpty(error))
+            return movie;
+
+        Console.WriteLine($"ERROR: {error}");
+    } while (true);
 }
 
 void EditMovie()
@@ -105,6 +113,8 @@ void ViewMovie ( Movie movie )
         return;
     };
 
+    //movie.DownloadMetadata();    
+
     Console.WriteLine();    
     Console.WriteLine("".PadLeft(15, '-'));
     
@@ -131,6 +141,10 @@ bool Confirm ( string message )
 //Functions run in isolation
 // Parameters - Getting data into a function
 // Return type - Getting data out of a function
+
+/// <summary>Reads a boolean value.</summary>
+/// <param name="message">Message to show.</param>
+/// <returns>Returns true if the value was true or false otherwise.</returns>
 bool ReadBoolean ( string message )
 {
     Console.WriteLine(message);
