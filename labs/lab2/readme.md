@@ -90,9 +90,9 @@ If the user does not confirm then return to the main menu.
 - Selecting the quit option displays a confirmation.
 - Confirming to quit terminates the program otherwise it does not.
 
-## Story 4 - Create the Character Types
+## Story 4 - Create the Character Type
 
-Create types to represent a character in the game.
+Create a type to represent a character in the game.
 
 ### Description
 
