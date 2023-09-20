@@ -222,7 +222,7 @@ Return to the main menu.
 
 - DO ensure code compiles cleanly without warnings or errors (unless otherwise specified).
 - DO ensure all acceptance criteria are met.
-- DO Ensure each file has a file header indicating the course, your name and date.
+- DO ensure each file has a file header indicating the course, your name and date.
 - DO ensure you are using the provided `.gitignore` file in your repository.
 - DO ensure the entire solution directory is uploaded to Github (except those files excluded by `.gitignore`).
 - DO submit your lab in Canvas by providing the link to the Github repository.
