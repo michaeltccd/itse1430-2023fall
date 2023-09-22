@@ -10,8 +10,14 @@ namespace MovieLibrary
     /// </remarks>
     public class Movie
     {
-        //Fields - data        
-        private string _title;
+        //Properties - field like syntax with method functionality
+        //  property_defn ::= full_property | auto_property
+        //
+        //  full_property ::= [mods] T id { [ getter ] [ setter ] }
+        //  getter ::= get { S* }  
+        //  setter ::= set { S* }  
+        //
+        //  auto_property ::= [mods] T id { [ get; ] [ set; ] } [ = Et ;]
 
         /// <summary>Gets or sets the title of movie.</summary>
         public string Title
@@ -34,7 +40,7 @@ namespace MovieLibrary
             }
         }
 
-        private string _description = "";
+        /// <summary>Gets or sets the optional description.</summary>
         public string Description
         {
             get 
@@ -46,7 +52,8 @@ namespace MovieLibrary
             }
             set { _description = value; }
         }
-        private string _genre = "";
+
+        /// <summary>Gets or sets the genre.</summary>
         public string Genre
         {
             get 
@@ -58,7 +65,8 @@ namespace MovieLibrary
             }
             set { _genre = value; }
         }
-        private string _rating = "";
+
+        /// <summary>Gets or sets the MPAA rating.</summary>
         public string Rating
         {
             get 
@@ -70,16 +78,9 @@ namespace MovieLibrary
             }
             set { _rating = value; }
         }
-
-        //Full property syntax
-        //private int _length;        
-        //public int RunLength
-        //{
-        //    get { return _length; }
-        //    set { _length = value; }
-        //}
-
-        //Auto property syntax
+        
+        /// <summary>Gets or sets the run length.</summary>
+        /// <value>Must be at least zero.</value>
         public int RunLength { get; set; }
 
         //private int _releaseYear = 1900;
@@ -88,6 +89,9 @@ namespace MovieLibrary
         //    get { return _releaseYear; }
         //    set { _releaseYear = value; }
         //}
+
+        /// <summary>Gets or sets the release year.</summary>
+        /// <value>Must be at least 1900.</value>
         public int ReleaseYear { get; set; } = 1900;
 
         //private bool _isBlackAndWhite;
@@ -96,18 +100,26 @@ namespace MovieLibrary
         //    get { return _isBlackAndWhite; }
         //    set { _isBlackAndWhite = value; }
         //}
+
+        /// <summary>Determines if the movie is black and white or color.</summary>
         public bool IsBlackAndWhite { get; set; }
 
         //Calculated property
+        /// <summary>Determines if the movie needs an intermission.</summary>
+        /// <value>Any movie that is at least 2 and a half hours needs an intermission.</value>
         public bool NeedsIntermission
         {
             //Runlength > 150
             get { return RunLength >= 150; }
-            //set { }
-        }
+            //set { }  //Optional
+        }        
 
-        //Properties - data with functionality
-        
+        //Fields - data
+        //  field_defn ::= [mods] T id [ = Et ];
+        private string _title;
+        private string _description = "";
+        private string _genre = "";
+        private string _rating = "";
 
         //Methods - functionality
 
