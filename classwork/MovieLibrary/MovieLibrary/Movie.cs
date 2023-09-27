@@ -19,6 +19,14 @@ namespace MovieLibrary
         //
         //  auto_property ::= [mods] T id { [ get; ] [ set; ] } [ = Et ;]
 
+        /// <summary>Gets or sets the unique identifier of the movie.</summary>
+        public int Id { 
+            //Mixed accessibility - getter/setter has different access than property
+            get;
+            /*set;*/
+            private set;
+        }
+
         /// <summary>Gets or sets the title of movie.</summary>
         public string Title
         {
@@ -67,17 +75,18 @@ namespace MovieLibrary
         }
 
         /// <summary>Gets or sets the MPAA rating.</summary>
-        public string Rating
-        {
-            get 
-            {
-                if (String.IsNullOrEmpty(_rating))
-                    return ""; 
+        //public string Rating
+        //{
+        //    get 
+        //    {
+        //        if (String.IsNullOrEmpty(_rating))
+        //            return ""; 
                 
-                return _rating; 
-            }
-            set { _rating = value; }
-        }
+        //        return _rating; 
+        //    }
+        //    set { _rating = value; }
+        //}
+        public Rating Rating { get; set; }
         
         /// <summary>Gets or sets the run length.</summary>
         /// <value>Must be at least zero.</value>
@@ -92,7 +101,7 @@ namespace MovieLibrary
 
         /// <summary>Gets or sets the release year.</summary>
         /// <value>Must be at least 1900.</value>
-        public int ReleaseYear { get; set; } = 1900;
+        public int ReleaseYear { get; set; } = MinimumReleaseYear;
 
         //private bool _isBlackAndWhite;
         //public bool IsBlackAndWhite
@@ -112,9 +121,18 @@ namespace MovieLibrary
             //Runlength > 150
             get { return RunLength >= 150; }
             //set { }  //Optional
-        }        
+        }
 
-        //Fields - data
+        //Fields - data        
+        
+        /// <summary>Minimum release year.</summary>
+        public const int MinimumReleaseYear = 1900;
+
+        //Const - compile time constant, must recompile to change
+        //Readonly - runtime constant, do not recompile to change
+        //public const string DefaultRating = "PG";
+        public readonly string DefaultRating = "PG";
+
         //  field_defn ::= [mods] T id [ = Et ];
         private string _title;
         private string _description = "";
@@ -135,7 +153,7 @@ namespace MovieLibrary
         public string Validate () /* Movie this */
         {
             //var title = "";
-
+            
             //Title is required
             //if (String.IsNullOrEmpty(this.title))
             if (String.IsNullOrEmpty(_title))
@@ -145,8 +163,8 @@ namespace MovieLibrary
 
             //Release Year >= 1900
             //if (this.releaseYear < 1900)
-            if (ReleaseYear < 1900)
-                return "Release Year must be >= 1900";
+            if (ReleaseYear < MinimumReleaseYear)
+                return $"Release Year must be >= {MinimumReleaseYear}";
 
             //Length >= 0
             if (RunLength < 0)

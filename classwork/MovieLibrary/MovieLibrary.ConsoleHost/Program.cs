@@ -83,10 +83,12 @@ partial class Program
             movie.Description = ReadString("Enter a description: ", false);
 
             movie.RunLength = ReadInt("Enter the run length (in mins): ", 0);
-            movie.ReleaseYear = ReadInt("Enter the release year: ", 1900);
+            movie.ReleaseYear = ReadInt("Enter the release year: ", Movie.MinimumReleaseYear);
 
             movie.Genre = ReadString("Enter a genre: ", false);
             movie.Rating = ReadRating("Enter a rating: ");
+            //if (movie.Rating != null)
+            //    movie.Rating.Name = "Whatever";
 
             movie.IsBlackAndWhite = ReadBoolean("Black and White (Y/N)?");
             //movie.NeedsIntermission = true;
@@ -213,7 +215,7 @@ partial class Program
         } while (true);
     }
 
-    string ReadRating ( string message )
+    Rating ReadRating ( string message )
     {
         Console.WriteLine(message);
 
@@ -221,15 +223,15 @@ partial class Program
         {
             string value = Console.ReadLine();
             if (String.Equals(value, "PG", StringComparison.CurrentCultureIgnoreCase))
-                return "PG";
+                return Rating.PG;
             else if (String.Equals(value, "G", StringComparison.CurrentCultureIgnoreCase))
-                return "G";
+                return Rating.G;
             else if (String.Equals(value, "PG-13", StringComparison.CurrentCultureIgnoreCase))
-                return "PG-13";
+                return Rating.PG13;
             else if (String.Equals(value, "R", StringComparison.CurrentCultureIgnoreCase))
-                return "R";
+                return Rating.R;
             else if (String.IsNullOrEmpty(value))
-                return "";
+                return null;
 
             Console.WriteLine("Invalid rating");
         } while (true);
