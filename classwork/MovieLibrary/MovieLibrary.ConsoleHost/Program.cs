@@ -76,6 +76,9 @@ partial class Program
     Movie AddMovie ()
     {
         var movie = new Movie();
+        //var movie = new Movie(10, "Something");
+        //movie.Title = "Something";
+        //movie.Description = "Something";
 
         do
         {
@@ -94,7 +97,9 @@ partial class Program
             //movie.NeedsIntermission = true;
 
             //Validate
-            var error = movie.Validate();   //Validate(movie)
+            ValidatableObject validInstance = movie;
+            //validInstance.Only
+            var error = validInstance.Validate();   //Validate(movie)
             if (String.IsNullOrEmpty(error))
                 return movie;
 
