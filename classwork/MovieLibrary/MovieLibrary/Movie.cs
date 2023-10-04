@@ -67,48 +67,41 @@ namespace MovieLibrary
 
         /// <summary>Gets or sets the title of movie.</summary>
         public string Title
-        {
+        {           
             //string get()
             get {
-                if (String.IsNullOrEmpty(_title))
-                    return "";
+                return _title ?? "";
+                //return _title != null ? _title : "";
+                //if (_title == null)
+                ////if (String.IsNullOrEmpty(_title))
+                //    return "";
 
-                return _title;
+                //return _title;
             }
 
             //void set(string value)
             set 
             {
-                if (value != null)
-                    value = value.Trim();
+                _title = value?.Trim() ?? "";
+                
+                //if (value != null)
+                //    value = value.Trim();
 
-                _title = value;
+                //_title = value;
             }
         }
 
         /// <summary>Gets or sets the optional description.</summary>
         public string Description
         {
-            get 
-            {
-                if (String.IsNullOrEmpty(_description))
-                    return "";
-
-                return _description; 
-            }
+            get { return _description ?? ""; }
             set { _description = value; }
         }
 
         /// <summary>Gets or sets the genre.</summary>
         public string Genre
         {
-            get 
-            {
-                if (String.IsNullOrEmpty(_genre))
-                    return ""; 
-                
-                return _genre; 
-            }
+            get { return _genre ?? ""; }
             set { _genre = value; }
         }
 
@@ -235,6 +228,11 @@ namespace MovieLibrary
             return base.TryValidate(out message);
             //message = "";
             //return true;
+        }
+
+        public override string ToString ()
+        {
+            return $"{Title} [{ReleaseYear}]";
         }
     }
 }

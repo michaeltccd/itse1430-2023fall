@@ -17,9 +17,9 @@ partial class Program
     }
 
     void Run ()
-    { 
+    {
         //TODO: Remove this
-        Movie movie = new Movie();
+        Movie movie = null; //= new Movie();
 
         //Entry point
         var done = false;
@@ -114,7 +114,8 @@ partial class Program
 
     bool DeleteMovie ( Movie movie )
     {
-        if (String.IsNullOrEmpty(movie.Title))
+        //if (String.IsNullOrEmpty(movie.Title))
+        if (movie == null)
             return false;
 
         if (!Confirm($"Are you sure you want to delete the movie '{movie.Title}' (Y/N)?"))
@@ -128,11 +129,15 @@ partial class Program
     //Display the movie details
     void ViewMovie ( Movie movie )
     {
-        if (String.IsNullOrEmpty(movie.Title))
+        //if (String.IsNullOrEmpty(movie.Title))
+        if (movie == null)
         {
             Console.WriteLine("No movies available");
             return;
         };
+
+        //var len = movie?.RunLength;
+        //movie?.Validate();
 
         //movie.DownloadMetadata();    
 
@@ -255,5 +260,54 @@ partial class Program
 
             Console.WriteLine("Value is required");
         } while (true);
+    }
+
+    void Display ( object value )
+    {
+        //If a string call ToString
+        //If an int call ToString() with minimum 2 digits
+        //if a float call ToString() with 2 digits precision
+        //if boolean then print Yes or No
+        //Otherwise ToString()
+
+        //Type checking/casting
+        // 1. is_expression ::= E is T (boolean)
+        // Cast 2. c_style ::= (T)E
+        // 3. as_expression ::= E as T (T)
+        // 4. pattern_matching ::= E is T id (boolean with side effect of id = (T)E)
+
+        //if (value is string)
+        //{
+        //    //Is a string - dangerous
+        //    //var valueString = (string)value;
+        //    var valueString = value as string;
+        //    Console.WriteLine(valueString);
+
+        //    //string x = "Hello";
+        //    //int y = (int)x;
+        //};
+        //
+        // Approach 3
+        //var valueString = value as string;
+        //if (valueString != null)
+        //{
+        //    Console.WriteLine(valueString);
+        //};
+
+        // Pattern match (PREFERRED)
+        if (value is string str)
+        {
+            Console.WriteLine(str);
+        } else if (value is int i)
+        {
+            Console.WriteLine(i);
+        };
+
+        //if (value is int)
+        //{
+        //    //Blows up if it fails
+        //    int y = (int)value;
+        //};
+        //var intValue = value as int;
     }
 }
