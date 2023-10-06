@@ -4,11 +4,10 @@
  * 
  * Sample movie library
  */
-using MovieLibrary;
 
 namespace MovieLibrary.ConsoleHost;
 
-partial class Program
+class Program
 {
     static void Main ()
     {

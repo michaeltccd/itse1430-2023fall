@@ -31,8 +31,5 @@ namespace MovieLibrary
 
             return "";
         }
-
-        protected void OnlyVisibleToDerivedTypes()
-        { }
     }
 }
