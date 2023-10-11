@@ -76,9 +76,12 @@ Change some of the properties of the main window.
 
 #### Exiting the Program
 
-Create a new menu item for `File\Exit` with appropriate accelerator keys. The command should be assigned the shortcut key of `Alt+F4`.
+Create a new menu item for `File\Exit` with appropriate accelerator keys.
 
-When the command is executed close the main window and terminate the application.
+When the command is executed prompt the user to confirm they wish to exit.
+
+If the user confirms then close the main window which will terminate the application.
+If the user opts to continue then do nothing.
 
 #### Providing Help
 
