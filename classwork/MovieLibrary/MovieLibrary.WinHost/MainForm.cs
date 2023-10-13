@@ -7,6 +7,20 @@ namespace MovieLibrary.WinHost
             InitializeComponent();
         }
 
+        protected override void OnFormClosing ( FormClosingEventArgs e )
+        {
+            if (_movie != null)
+            {
+                if (!Confirm("Do you want to exit?", "Exit"))
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            };
+
+            base.OnFormClosing(e);
+        }
+
         private void OnFileExit ( object sender, EventArgs e )
         {
             Close();
@@ -19,12 +33,28 @@ namespace MovieLibrary.WinHost
             //ShowDialog - modal
             //Show - modeless
             //dlg.Show();
-            dlg.ShowDialog();
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            //TODO: Add movie to library
+            _movie = dlg.Movie;
+            RefreshMovies();
         }
 
         private void OnEditMovie ( object sender, EventArgs e )
         {
-            MessageBox.Show("Edit Not implemented");
+            var movie = GetSelectedMovie();
+            if (movie == null)
+                return;
+
+            var dlg = new MovieForm();
+            dlg.Movie = movie;
+            if (dlg.ShowDialog() != DialogResult.OK)
+                return;
+
+            //TODO: Add movie to library
+            _movie = dlg.Movie;
+            RefreshMovies();
         }
 
         private void OnDeleteMovie ( object sender, EventArgs e )
@@ -38,6 +68,7 @@ namespace MovieLibrary.WinHost
 
             //TODO: Delete movie
             _movie = null;
+            RefreshMovies();
         }
 
         private void OnHelpAbout ( object sender, EventArgs e )
@@ -56,6 +87,15 @@ namespace MovieLibrary.WinHost
             return _movie;
         }
 
-        private Movie _movie = new Movie() { Title = "Jaws" }; //MovieLibrary.Movie
+        private void RefreshMovies()
+        {
+            _lstMovies.DataSource = null;
+
+            //HACK: Fix this
+            if (_movie != null)
+                _lstMovies.DataSource = new[] { _movie };
+        }
+
+        private Movie _movie;
     }
 }

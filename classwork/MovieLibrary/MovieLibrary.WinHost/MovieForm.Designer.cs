@@ -74,6 +74,7 @@
             // 
             // _cbRating
             // 
+            this._cbRating.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this._cbRating.FormattingEnabled = true;
             this._cbRating.Items.AddRange(new object[] {
             "G",
@@ -88,8 +89,9 @@
             // _txtDescription
             // 
             this._txtDescription.Location = new System.Drawing.Point(151, 145);
+            this._txtDescription.Multiline = true;
             this._txtDescription.Name = "_txtDescription";
-            this._txtDescription.Size = new System.Drawing.Size(100, 23);
+            this._txtDescription.Size = new System.Drawing.Size(327, 37);
             this._txtDescription.TabIndex = 4;
             // 
             // _txtReleaseYear
