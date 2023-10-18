@@ -120,11 +120,12 @@
             // 
             // _lstMovies
             // 
+            this._lstMovies.Dock = System.Windows.Forms.DockStyle.Fill;
             this._lstMovies.FormattingEnabled = true;
             this._lstMovies.ItemHeight = 15;
-            this._lstMovies.Location = new System.Drawing.Point(12, 27);
+            this._lstMovies.Location = new System.Drawing.Point(0, 24);
             this._lstMovies.Name = "_lstMovies";
-            this._lstMovies.Size = new System.Drawing.Size(776, 409);
+            this._lstMovies.Size = new System.Drawing.Size(800, 426);
             this._lstMovies.TabIndex = 1;
             // 
             // MainForm

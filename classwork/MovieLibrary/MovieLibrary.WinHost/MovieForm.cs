@@ -15,11 +15,11 @@ public partial class MovieForm : Form
     {
         base.OnLoad(e);
 
+        //Load movie data, if any
         if (Movie != null)
         {
             Text = "Edit Movie";
-
-            //Load initial movie data
+            
             _txtTitle.Text = Movie.Title;
             _txtDescription.Text = Movie.Description;
             _txtGenre.Text = Movie.Genre;
@@ -51,13 +51,15 @@ public partial class MovieForm : Form
 
         if (!movie.TryValidate(out var error))
         {
-            MessageBox.Show(error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(this, error, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            DialogResult = DialogResult.None;
             return;                
         };
 
         Movie = movie;
-        DialogResult = DialogResult.OK;
-        Close();
+        //DialogResult = DialogResult.OK;
+        //Close();
     }
 
     private void OnCancel ( object sender, EventArgs e )
@@ -72,5 +74,51 @@ public partial class MovieForm : Form
             return value;
 
         return defaultValue;
+    }
+
+    private void OnValidateTitle ( object sender, System.ComponentModel.CancelEventArgs e )
+    {
+        if (String.IsNullOrEmpty(_txtTitle.Text))
+        {
+            //Invalid
+            _errors.SetError(_txtTitle, "Title is required");
+            e.Cancel = true;
+        } else
+            _errors.SetError(_txtTitle, "");
+    }
+
+    private void OnValidateReleaseYear ( object sender, System.ComponentModel.CancelEventArgs e )
+    {
+        var value = GetInt32(_txtReleaseYear, 1);
+        if (value < 1900)
+        {
+            //Invalid
+            _errors.SetError(_txtReleaseYear, "Release Year must be at least 1900");
+            e.Cancel = true;
+        } else
+            _errors.SetError(_txtReleaseYear, "");
+    }
+
+    private void OnValidateRunLength ( object sender, System.ComponentModel.CancelEventArgs e )
+    {
+        var value = GetInt32(_txtRunLength, -1);
+        if (value < 0)
+        {
+            //Invalid
+            _errors.SetError(_txtRunLength, "Run Length must be >= 0");
+            e.Cancel = true;
+        } else
+            _errors.SetError(_txtRunLength, "");
+    }
+
+    private void OnValidateRating ( object sender, System.ComponentModel.CancelEventArgs e )
+    {
+        if (String.IsNullOrEmpty(_cbRating.Text))
+        {
+            //Invalid
+            _errors.SetError(_cbRating, "Rating is required");
+            e.Cancel = true;
+        } else
+            _errors.SetError(_cbRating, "");
     }
 }
