@@ -30,10 +30,19 @@ public partial class MovieForm : Form
 
             _chkIsBlackAndWhite.Checked = Movie.IsBlackAndWhite;
         };
+
+        ValidateChildren();
     }
 
     private void OnSave ( object sender, EventArgs e )
     {
+        //Validate and abort if necessary
+        if (!ValidateChildren())
+        {
+            DialogResult = DialogResult.None;
+            return;
+        };        
+
         var button = sender as Button;
 
         var movie = new Movie();

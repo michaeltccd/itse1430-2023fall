@@ -7,6 +7,8 @@ namespace MovieLibrary;
 /// <summary>Represents a movie.</summary>
 public class Movie : ValidatableObject
 {
+    #region Construction
+
     /// <summary>Initializes the Movie class.</summary>
     public Movie ()
     {
@@ -27,9 +29,10 @@ public class Movie : ValidatableObject
         Id = id;
         Title = title;            
     }
+    #endregion
 
     /// <summary>Gets or sets the unique identifier of the movie.</summary>
-    public int Id { get; private set; }
+    public int Id { get; set; }
 
     /// <summary>Gets or sets the title of movie.</summary>
     public string Title
@@ -79,10 +82,6 @@ public class Movie : ValidatableObject
     /// <summary>Gets the default rating.</summary>
     public readonly string DefaultRating = "PG";
 
-    private string _title;
-    private string _description = "";
-    private string _genre = "";
-
     /// <summary>Validates the movie instance.</summary>
     /// <returns>Error message if invalid or empty string otherwise.</returns>
     public override bool TryValidate ( out string message ) /* Movie this */
@@ -121,4 +120,12 @@ public class Movie : ValidatableObject
     {
         return $"{Title} [{ReleaseYear}]";
     }
+
+    #region Private Members
+
+    private string _title;
+    private string _description = "";
+    private string _genre = "";
+
+    #endregion
 }

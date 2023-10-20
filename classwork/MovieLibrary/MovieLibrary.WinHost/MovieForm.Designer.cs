@@ -73,6 +73,7 @@
             // _btnCancel
             // 
             this._btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this._btnCancel.CausesValidation = false;
             this._btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this._btnCancel.Location = new System.Drawing.Point(365, 323);
             this._btnCancel.Name = "_btnCancel";
@@ -95,6 +96,7 @@
             this._cbRating.Name = "_cbRating";
             this._cbRating.Size = new System.Drawing.Size(87, 23);
             this._cbRating.TabIndex = 1;
+            this._cbRating.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateRating);
             // 
             // _txtDescription
             // 
@@ -113,6 +115,7 @@
             this._txtReleaseYear.Name = "_txtReleaseYear";
             this._txtReleaseYear.Size = new System.Drawing.Size(87, 23);
             this._txtReleaseYear.TabIndex = 2;
+            this._txtReleaseYear.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateReleaseYear);
             // 
             // _txtGenre
             // 
@@ -139,6 +142,8 @@
             this._txtRunLength.Name = "_txtRunLength";
             this._txtRunLength.Size = new System.Drawing.Size(87, 23);
             this._txtRunLength.TabIndex = 5;
+            this._txtRunLength.Text = "0";
+            this._txtRunLength.Validating += new System.ComponentModel.CancelEventHandler(this.OnValidateRunLength);
             // 
             // label1
             // 
