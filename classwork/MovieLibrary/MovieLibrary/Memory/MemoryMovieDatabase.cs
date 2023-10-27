@@ -5,6 +5,7 @@ namespace MovieLibrary.Memory;
 /// <summary>Represents a database of movies.</summary>
 public class MemoryMovieDatabase
 {
+    /// <summary>Initializes an instance of the <see cref="MemoryMovieDatabase"/> class.</summary>
     public MemoryMovieDatabase ()
     {
         //Object initializer - replaces need for creating an object (expression) and then assigning values to properties (statements)
@@ -59,6 +60,14 @@ public class MemoryMovieDatabase
             Add(movie);
     }
 
+    /// <summary>Adds a movie to the database.</summary>
+    /// <param name="movie">The movie to add.</param>
+    /// <returns>Empty string if successful or an error message otherwise.</returns>
+    /// <remarks>
+    /// Movie cannot be null.
+    /// Movie must be valid.
+    /// Movie title must be unique.
+    /// </remarks>
     public string Add ( Movie movie )
     {
         //Validate: null, invalid movie
@@ -87,6 +96,60 @@ public class MemoryMovieDatabase
         return "";
     }
 
+    /// <summary>Deletes a movie from the database.</summary>
+    /// <param name="id">ID of the movie to delete.</param>
+    /// <remarks>
+    /// Id must be > 0.
+    /// If the movie does not exist then nothing happens.
+    /// </remarks>
+    public void Delete ( int id )
+    {
+        //TODO:Id > 0
+
+        //var index = FindById(id);
+        //if (index >= 0)
+        //    _movies[index] = null;
+        var movie = FindById(id);
+        if (movie != null)
+            _movies.Remove(movie);  //Reference equality applies
+    }
+
+    /// <summary>Gets all the movies in the database.</summary>
+    /// <returns>The list of movies.</returns>
+    public Movie[] GetAll ()
+    {
+        var count = _movies.Count;
+        
+        ////How many are not null
+        //var count = 0;
+        //for (var index = 0; index < _movies.Length; ++index)
+        //    if (_movies[index] != null)
+        //        ++count;        
+
+        //Clone array
+        var items = new Movie[_movies.Count];
+        var itemIndex = 0;
+        foreach (var movie in _movies)
+            items[itemIndex++] = Clone(movie);
+
+        //for (var index = 0; index < _movies.Length; ++index)
+        //    if (_movies[index] != null)
+        //        items[itemIndex++] = Clone(_movies[index]);
+
+        return items;
+    }
+
+    /// <summary>Updates a movie in the database.</summary>
+    /// <param name="id">ID of the movie to update.</param>
+    /// <param name="movie">The updated movie information.</param>
+    /// <returns>Empty string if successful or an error message otherwise.</returns>
+    /// <remarks>
+    /// Id must be > 0.
+    /// Movie cannot be null.
+    /// Movie must be valid.
+    /// Movie must exist.
+    /// Movie title must be unique.
+    /// </remarks>
     public string Update ( int id, Movie movie )
     {
         //Validate: null, invalid movie
@@ -113,40 +176,7 @@ public class MemoryMovieDatabase
         return "";
     }
 
-    public void Delete ( int id )
-    {
-        //TODO:Id > 0
-
-        //var index = FindById(id);
-        //if (index >= 0)
-        //    _movies[index] = null;
-        var movie = FindById(id);
-        if (movie != null)
-            _movies.Remove(movie);  //Reference equality applies
-    }
-
-    public Movie[] GetAll ()
-    {
-        var count = _movies.Count;
-        
-        ////How many are not null
-        //var count = 0;
-        //for (var index = 0; index < _movies.Length; ++index)
-        //    if (_movies[index] != null)
-        //        ++count;        
-
-        //Clone array
-        var items = new Movie[_movies.Count];
-        var itemIndex = 0;
-        foreach (var movie in _movies)
-            items[itemIndex++] = Clone(movie);
-
-        //for (var index = 0; index < _movies.Length; ++index)
-        //    if (_movies[index] != null)
-        //        items[itemIndex++] = Clone(_movies[index]);
-
-        return items;
-    }
+    #region Private Members
 
     private Movie Clone ( Movie movie )
     {
@@ -197,4 +227,5 @@ public class MemoryMovieDatabase
     //List<T> generic type, resizable array of type T
     private readonly List<Movie> _movies = new List<Movie>();
     private int _id = 1;
+    #endregion
 }
