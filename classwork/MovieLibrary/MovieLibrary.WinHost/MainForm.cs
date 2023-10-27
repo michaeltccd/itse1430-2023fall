@@ -118,10 +118,11 @@ public partial class MainForm : Form
         _lstMovies.DataSource = null;
 
         var movies = _database.GetAll();
+        
         _lstMovies.DataSource = movies;
-
+        
         //movies[0].Title = "None";
-        ////movies[2] = new Movie() { Title = "Bob" };
+        //movies[2] = new Movie() { Title = "Bob" };
 
         //var movies2 = _database.GetAll();
     }

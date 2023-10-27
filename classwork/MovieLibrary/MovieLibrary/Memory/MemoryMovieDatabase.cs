@@ -116,27 +116,36 @@ public class MemoryMovieDatabase
 
     /// <summary>Gets all the movies in the database.</summary>
     /// <returns>The list of movies.</returns>
-    public Movie[] GetAll ()
+    public IEnumerable<Movie> GetAll ()
     {
-        var count = _movies.Count;
-        
-        ////How many are not null
-        //var count = 0;
-        //for (var index = 0; index < _movies.Length; ++index)
-        //    if (_movies[index] != null)
-        //        ++count;        
+        #region Hide this
+        //var count = _movies.Count;
 
-        //Clone array
-        var items = new Movie[_movies.Count];
-        var itemIndex = 0;
+        //////How many are not null
+        ////var count = 0;
+        ////for (var index = 0; index < _movies.Length; ++index)
+        ////    if (_movies[index] != null)
+        ////        ++count;        
+
+        ////Clone array
+        //var items = new Movie[_movies.Count];
+        //var itemIndex = 0;
+        //foreach (var movie in _movies)
+        //    items[itemIndex++] = Clone(movie);
+
+        ////for (var index = 0; index < _movies.Length; ++index)
+        ////    if (_movies[index] != null)
+        ////        items[itemIndex++] = Clone(_movies[index]);
+        #endregion
+
+        //IIf return type is IEnumerable<T> then you may use an iterator to impl
+        //var items = new List<Movie>();
+        //foreach (var movie in _movies)
+        //    items.Add(Clone(movie));
         foreach (var movie in _movies)
-            items[itemIndex++] = Clone(movie);
-
-        //for (var index = 0; index < _movies.Length; ++index)
-        //    if (_movies[index] != null)
-        //        items[itemIndex++] = Clone(_movies[index]);
-
-        return items;
+            yield return Clone(movie);
+        
+        //return items;
     }
 
     /// <summary>Updates a movie in the database.</summary>
