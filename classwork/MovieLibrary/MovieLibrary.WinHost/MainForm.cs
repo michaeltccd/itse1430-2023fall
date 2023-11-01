@@ -118,8 +118,11 @@ public partial class MainForm : Form
         _lstMovies.DataSource = null;
 
         var movies = _database.GetAll();
-        
-        _lstMovies.DataSource = movies;
+
+        var source = new BindingSource() {
+            DataSource = movies
+        };
+        _lstMovies.DataSource = source;
         
         //movies[0].Title = "None";
         //movies[2] = new Movie() { Title = "Bob" };
@@ -127,6 +130,6 @@ public partial class MainForm : Form
         //var movies2 = _database.GetAll();
     }
 
-    private MemoryMovieDatabase _database = new MemoryMovieDatabase();
+    private IMovieDatabase _database = new MemoryMovieDatabase();
     #endregion
 }

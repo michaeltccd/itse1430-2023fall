@@ -84,48 +84,13 @@ public class Movie : IValidatableObject
     /// <summary>Gets the default rating.</summary>
     public readonly string DefaultRating = "PG";
 
-    /// <summary>Validates the movie instance.</summary>
-    /// <returns>Error message if invalid or empty string otherwise.</returns>
-    public bool TryValidate ( out string message ) /* Movie this */
-    {
-        //TODO: Replace with IValidatableObject call
-        //Title is required
-        if (String.IsNullOrEmpty(_title))
-        {
-            message = "Title is required";
-            return false;
-        };
-
-        //Release Year >= 1900
-        if (ReleaseYear < MinimumReleaseYear)
-        {
-            message = $"Release Year must be >= {MinimumReleaseYear}";
-            return false;
-        };
-
-        //Length >= 0
-        if (RunLength < 0)
-        {
-            message = "Length must be at least 0";
-            return false;
-        };
-
-        if (ReleaseYear < 1940 && !IsBlackAndWhite)
-        {
-            message = "Movies before 1940 must be black and white";
-            return false;
-        };
-
-        //return base.TryValidate(out message);
-        message = "";
-        return true;
-    }
-
+    /// <inheritdoc />
     public override string ToString ()
     {
         return $"{Title} [{ReleaseYear}]";
     }
 
+    /// <inheritdoc />
     public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
     {
         //Title is required
