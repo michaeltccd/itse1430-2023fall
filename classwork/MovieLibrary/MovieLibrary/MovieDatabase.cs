@@ -20,7 +20,7 @@ public abstract class MovieDatabase : IMovieDatabase
         //Validate: null, invalid movie
         if (movie == null)
             return "Movie is null";
-        if (!new ObjectValidator().TryValidate(movie, out var error))
+        if (!ObjectValidator.TryValidate(movie, out var error))
             return error.First().ErrorMessage;
 
         //Title must be unique
@@ -65,7 +65,7 @@ public abstract class MovieDatabase : IMovieDatabase
     /// <returns>The list of movies.</returns>
     public virtual IEnumerable<Movie> GetAll ()
     {
-        return GetAllCore();
+        return GetAllCore() ?? Enumerable.Empty<Movie>(); // new Movie[0];
     }
 
     protected abstract IEnumerable<Movie> GetAllCore ();
@@ -87,9 +87,11 @@ public abstract class MovieDatabase : IMovieDatabase
         if (id <= 0)
             return "ID is invalid";
 
+        //var whatever = new ObjectValidator();
+        
         if (movie == null)
             return "Movie is null";
-        if (!new ObjectValidator().TryValidate(movie, out var error))
+        if (!ObjectValidator.TryValidate(movie, out var error))
             return error.First().ErrorMessage;
 
         //Title must be unique (and not self)

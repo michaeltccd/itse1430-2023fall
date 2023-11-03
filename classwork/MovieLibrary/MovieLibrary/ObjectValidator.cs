@@ -7,13 +7,13 @@ using System.ComponentModel.DataAnnotations;
 namespace MovieLibrary;
 
 /// <summary>Provides support for validating objects.</summary>
-public class ObjectValidator
+public static class ObjectValidator
 {
     /// <summary>Tries to validate an object.</summary>
     /// <param name="value">Value to validate.</param>
     /// <param name="results">Validation results.</param>
     /// <returns>true if valid or false otherwise.</returns>
-    public bool TryValidate ( IValidatableObject value, out IEnumerable<ValidationResult> results)
+    public static bool TryValidate ( IValidatableObject value, out IEnumerable<ValidationResult> results)
     {
         var context = new ValidationContext(value);
 
@@ -25,7 +25,11 @@ public class ObjectValidator
             return true;
         };
 
+        //_notUsed = 0;
+
         results = items;
         return false;
     }
+
+    //private int _notUsed;
 }

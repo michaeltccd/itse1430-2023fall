@@ -27,7 +27,7 @@ public partial class MainForm : Form
     {
         base.OnLoad(e);
 
-        RefreshMovies();
+        RefreshMovies(true);
     }
 
     #region Event Handlers
@@ -113,21 +113,27 @@ public partial class MainForm : Form
         return _lstMovies.SelectedItem as Movie;
     }
 
-    private void RefreshMovies()
+    private void RefreshMovies ( bool initial = false )
     {
         _lstMovies.DataSource = null;
 
         var movies = _database.GetAll();
 
-        var source = new BindingSource() {
-            DataSource = movies
-        };
-        _lstMovies.DataSource = source;
-        
-        //movies[0].Title = "None";
-        //movies[2] = new Movie() { Title = "Bob" };
+        //Seed database if desired
+        if (initial && !movies.Any() && Confirm("Seed", "Do you want to seed the database with movies?"))
+        {
+            //DatabaseSeeder.Seed(_database);
+            _database.Seed();
 
-        //var movies2 = _database.GetAll();
+            movies = _database.GetAll();
+        };
+
+        //var typedMovies = movies.OfType<Movie>();
+
+        //var source = new BindingSource() {
+        //    DataSource = movies
+        //};
+        _lstMovies.DataSource = movies.ToArray();
     }
 
     private IMovieDatabase _database = new MemoryMovieDatabase();
