@@ -39,22 +39,24 @@ public class Movie : IValidatableObject
     /// <summary>Gets or sets the title of movie.</summary>
     public string Title
     {
-        get { return _title ?? ""; }
-        set { _title = value?.Trim() ?? ""; }
+        get => _title ?? "";
+        set => _title = value?.Trim() ?? "";
+        //get { return _title ?? ""; }
+        //set { _title = value?.Trim() ?? ""; }
     }
 
     /// <summary>Gets or sets the optional description.</summary>
     public string Description
     {
-        get { return _description ?? ""; }
-        set { _description = value; }
+        get => _description ?? "";
+        set => _description = value;
     }
 
     /// <summary>Gets or sets the genre.</summary>
     public string Genre
     {
-        get { return _genre ?? ""; }
-        set { _genre = value; }
+        get => _genre ?? "";
+        set => _genre = value;
     }
 
     /// <summary>Gets or sets the MPAA rating.</summary>
@@ -73,10 +75,12 @@ public class Movie : IValidatableObject
 
     /// <summary>Determines if the movie needs an intermission.</summary>
     /// <value>Any movie that is at least 2 and a half hours needs an intermission.</value>
-    public bool NeedsIntermission
-    {
-        get { return RunLength >= 150; }
-    }
+    //public bool NeedsIntermission
+    //{
+    //    get { return RunLength >= 150; }
+    //}
+    //public bool NeedsIntermission = RunLength >= 150;
+    public bool NeedsIntermission => RunLength >= 150;
 
     /// <summary>Minimum release year.</summary>
     public const int MinimumReleaseYear = 1900;
@@ -85,10 +89,7 @@ public class Movie : IValidatableObject
     public readonly string DefaultRating = "PG";
 
     /// <inheritdoc />
-    public override string ToString ()
-    {
-        return $"{Title} [{ReleaseYear}]";
-    }
+    public override string ToString () => $"{Title} [{ReleaseYear}]";
 
     /// <inheritdoc />
     public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )

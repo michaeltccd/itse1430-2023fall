@@ -44,10 +44,12 @@ public abstract class MovieDatabase : IMovieDatabase
     }
 
     /// <inheritdoc />
-    public virtual IEnumerable<Movie> GetAll ()
-    {
-        return GetAllCore() ?? Enumerable.Empty<Movie>(); // new Movie[0];
-    }
+    //public virtual IEnumerable<Movie> GetAll ()
+    //{
+    //    return GetAllCore() ?? Enumerable.Empty<Movie>(); // new Movie[0];
+    //}
+    //Expression body ::= member who uses lambda syntax
+    public virtual IEnumerable<Movie> GetAll () => GetAllCore() ?? Enumerable.Empty<Movie>();
 
     /// <inheritdoc />
     public virtual string Update ( int id, Movie movie )
@@ -76,7 +78,6 @@ public abstract class MovieDatabase : IMovieDatabase
         UpdateCore(id, movie);
         return "";
     }
-
 
     #region Protected Members
 

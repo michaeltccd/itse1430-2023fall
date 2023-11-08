@@ -64,7 +64,7 @@ public partial class MovieForm : Form
         //if (!movie.TryValidate(out var error))
         if (!ObjectValidator.TryValidate(movie, out var results))
         {
-            var error = results.First
+            var error = results.First();
             //var error = Enumerable.First(results);
             MessageBox.Show(this, error.ErrorMessage, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 

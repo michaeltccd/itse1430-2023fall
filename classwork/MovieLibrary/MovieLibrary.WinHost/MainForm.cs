@@ -117,7 +117,7 @@ public partial class MainForm : Form
     {
         _lstMovies.DataSource = null;
 
-        var movies = _database.GetAll();
+        IEnumerable<Movie> movies = _database.GetAll();
 
         //Seed database if desired
         if (initial && !movies.Any() && Confirm("Seed", "Do you want to seed the database with movies?"))
@@ -129,6 +129,12 @@ public partial class MainForm : Form
         };
 
         //var typedMovies = movies.OfType<Movie>();
+        //movies = movies.OrderBy();
+        movies = from m in movies
+                 orderby m.Title, m.ReleaseYear descending
+                 select m;
+        //movies.OrderBy(x => x.Title)
+        //        .ThenByDescending(x => x.ReleaseYear);
 
         //var source = new BindingSource() {
         //    DataSource = movies
