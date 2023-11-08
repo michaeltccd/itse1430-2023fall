@@ -6,15 +6,8 @@ namespace MovieLibrary;
 
 /// <summary>Represents a database of movies.</summary>
 public abstract class MovieDatabase : IMovieDatabase
-{    
-    /// <summary>Adds a movie to the database.</summary>
-    /// <param name="movie">The movie to add.</param>
-    /// <returns>Empty string if successful or an error message otherwise.</returns>
-    /// <remarks>
-    /// Movie cannot be null.
-    /// Movie must be valid.
-    /// Movie title must be unique.
-    /// </remarks>
+{        
+    /// <inheritdoc />
     public virtual string Add ( Movie movie )
     {
         //Validate: null, invalid movie
@@ -34,23 +27,14 @@ public abstract class MovieDatabase : IMovieDatabase
         return "";
     }
 
-    protected abstract Movie AddCore ( Movie movie );
-
-    /// <summary>Deletes a movie from the database.</summary>
-    /// <param name="id">ID of the movie to delete.</param>
-    /// <remarks>
-    /// Id must be > 0.
-    /// If the movie does not exist then nothing happens.
-    /// </remarks>
+    /// <inheritdoc />
     public virtual void Delete ( int id )
     {
         //TODO:Id > 0
-
         DeleteCore(id);
     }
 
-    protected abstract void DeleteCore ( int id );
-
+    /// <inheritdoc />
     public virtual Movie Get ( int id )
     {
         if (id <= 0)
@@ -59,28 +43,13 @@ public abstract class MovieDatabase : IMovieDatabase
         return GetCore(id);
     }
 
-    protected abstract Movie GetCore ( int id );
-
-    /// <summary>Gets all the movies in the database.</summary>
-    /// <returns>The list of movies.</returns>
+    /// <inheritdoc />
     public virtual IEnumerable<Movie> GetAll ()
     {
         return GetAllCore() ?? Enumerable.Empty<Movie>(); // new Movie[0];
     }
 
-    protected abstract IEnumerable<Movie> GetAllCore ();
-
-    /// <summary>Updates a movie in the database.</summary>
-    /// <param name="id">ID of the movie to update.</param>
-    /// <param name="movie">The updated movie information.</param>
-    /// <returns>Empty string if successful or an error message otherwise.</returns>
-    /// <remarks>
-    /// Id must be > 0.
-    /// Movie cannot be null.
-    /// Movie must be valid.
-    /// Movie must exist.
-    /// Movie title must be unique.
-    /// </remarks>
+    /// <inheritdoc />
     public virtual string Update ( int id, Movie movie )
     {
         //Validate: null, invalid movie
@@ -88,7 +57,7 @@ public abstract class MovieDatabase : IMovieDatabase
             return "ID is invalid";
 
         //var whatever = new ObjectValidator();
-        
+
         if (movie == null)
             return "Movie is null";
         if (!ObjectValidator.TryValidate(movie, out var error))
@@ -108,9 +77,40 @@ public abstract class MovieDatabase : IMovieDatabase
         return "";
     }
 
+
+    #region Protected Members
+
+    /// <summary>Adds a movie to the database.</summary>
+    /// <param name="movie">Movie to add.</param>
+    /// <returns>Updated movie.</returns>
+    protected abstract Movie AddCore ( Movie movie );
+        
+    /// <summary>Deletes a movie.</summary>
+    /// <param name="id">ID of the movie.</param>
+    protected abstract void DeleteCore ( int id );
+        
+    /// <summary>Gets a movie.</summary>
+    /// <param name="id">ID of the movie.</param>
+    /// <returns>The movie, if found.</returns>
+    protected abstract Movie GetCore ( int id );
+    
+    /// <summary>Gets the movies in the database.</summary>
+    /// <returns>The list of movies.</returns>
+    protected abstract IEnumerable<Movie> GetAllCore ();
+    
+    /// <summary>Updates a movie in the database.</summary>
+    /// <param name="id">ID of the movie to update.</param>
+    /// <param name="movie">The updated movie information.</param>
     protected abstract void UpdateCore ( int id, Movie movie );
 
+    /// <summary>Finds a movie by its ID.</summary>
+    /// <param name="id">ID of the movie.</param>
+    /// <returns>The movie, if any.</returns>
     protected abstract Movie FindById ( int id );
 
+    /// <summary>Finds a movie by its title.</summary>
+    /// <param name="title">Title of the movie.</param>
+    /// <returns>The movie, if any.</returns>
     protected abstract Movie FindByTitle ( string title );
+    #endregion
 }

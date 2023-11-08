@@ -8,6 +8,7 @@ namespace MovieLibrary.Memory;
 /// <summary>Represents a database of movies.</summary>
 public class MemoryMovieDatabase : MovieDatabase
 {
+    /// <inheritdoc />
     protected override Movie AddCore ( Movie movie )
     {
         movie.Id = _id++;
@@ -16,6 +17,7 @@ public class MemoryMovieDatabase : MovieDatabase
         return movie;
     }
 
+    /// <inheritdoc />
     protected override void DeleteCore ( int id )
     {
         var movie = FindById(id);
@@ -23,6 +25,7 @@ public class MemoryMovieDatabase : MovieDatabase
             _movies.Remove(movie);  //Reference equality applies
     }
 
+    /// <inheritdoc />
     protected override Movie GetCore ( int id )
     {
         var movie = FindById(id);
@@ -32,14 +35,14 @@ public class MemoryMovieDatabase : MovieDatabase
         return Clone(movie);
     }
 
-    /// <summary>Gets all the movies in the database.</summary>
-    /// <returns>The list of movies.</returns>
+    /// <inheritdoc />
     protected override IEnumerable<Movie> GetAllCore ()
     {
         foreach (var movie in _movies)
             yield return Clone(movie);
     }
-    
+
+    /// <inheritdoc />
     protected override void UpdateCore ( int id, Movie movie )
     {        
         var existing = FindById(id);
