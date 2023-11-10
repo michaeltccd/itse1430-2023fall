@@ -31,5 +31,12 @@ public static class ObjectValidator
         return false;
     }
 
+    public static void Validate ( IValidatableObject value )
+    {
+        var context = new ValidationContext(value);
+
+        Validator.ValidateObject(value, context, true);
+    }
+
     //private int _notUsed;
 }
