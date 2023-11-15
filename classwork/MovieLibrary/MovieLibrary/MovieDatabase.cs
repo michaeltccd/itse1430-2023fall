@@ -10,6 +10,8 @@ public abstract class MovieDatabase : IMovieDatabase
     /// <inheritdoc />
     public virtual Movie Add ( Movie movie )
     {
+        //throw new NotImplementedException();
+
         //Validate: null, invalid movie
         if (movie == null)
             throw new ArgumentNullException(nameof(movie));
@@ -20,9 +22,15 @@ public abstract class MovieDatabase : IMovieDatabase
         var existing = FindByTitle(movie.Title);
         if (existing != null)
             throw new InvalidOperationException("Movie title must be unique");
-        
+
         //TODO: Could also fail
-        return AddCore(movie);        
+        try
+        {
+            return AddCore(movie);
+        } catch (Exception e)
+        {
+            throw new InvalidOperationException("Add failed", e);
+        };
     }
 
     /// <inheritdoc />
@@ -31,7 +39,13 @@ public abstract class MovieDatabase : IMovieDatabase
         if (id <= 0)
             throw new ArgumentOutOfRangeException(nameof(id), "ID must be greater than 0");
 
-        DeleteCore(id);
+        try
+        {
+            DeleteCore(id);
+        } catch (Exception e)
+        {
+            throw new InvalidOperationException("Delete failed", e);
+        };
     }
 
     /// <inheritdoc />
@@ -40,7 +54,13 @@ public abstract class MovieDatabase : IMovieDatabase
         if (id <= 0)
             throw new ArgumentOutOfRangeException(nameof(id), "ID must be greater than 0");
 
-        return GetCore(id);
+        try
+        { 
+            return GetCore(id);
+        } catch (Exception e)
+        {
+            throw new InvalidOperationException("Get failed", e);
+        };
     }
 
     /// <inheritdoc />
@@ -74,7 +94,13 @@ public abstract class MovieDatabase : IMovieDatabase
             throw new ArgumentException("Movie not found", nameof(id));
 
         //TODO: Could still fails
-        UpdateCore(id, movie);
+        try
+        { 
+            UpdateCore(id, movie);
+        } catch (Exception e)
+        {
+            throw new InvalidOperationException("Update failed", e);
+        };
     }
 
     #region Protected Members

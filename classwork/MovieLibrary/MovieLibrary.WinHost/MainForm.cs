@@ -46,11 +46,29 @@ public partial class MainForm : Form
             if (dlg.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            //TODO: Add movie to library         
-            _database.Add(dlg.Movie);
-            break;
-            
-            //MessageBox.Show(this, error, "Add Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            //tr-catch ::= try-block catch-block+ ;
+            //try-block ::= try { S* }
+            //catch-block ::= catch [ ( Exception [id] ) ] { S* }
+            try
+            {
+                //Add movie to library         
+                _database.Add(dlg.Movie);
+                break;
+            } catch (NotImplementedException)
+            {
+                //I really cannot do anything about this but I'll try...
+                throw;
+            } catch (InvalidOperationException)
+            {
+                MessageBox.Show(this, "Movie already exists", "Add Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch (ArgumentException)
+            {
+                MessageBox.Show(this, "You messed up dude", "Add Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch (Exception ex)
+            {
+                //Error handling
+                MessageBox.Show(this, ex.Message, "Add Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };                       
         } while (true);
 
         RefreshMovies();
@@ -70,11 +88,21 @@ public partial class MainForm : Form
             if (dlg.ShowDialog(this) != DialogResult.OK)
                 return;
 
-            //TODO: Edit movie in library
-            _database.Update(movie.Id, dlg.Movie);
-            break;
-            
-            //MessageBox.Show(this, error, "Updated Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            try
+            {
+                _database.Update(movie.Id, dlg.Movie);
+                break;
+            } catch (InvalidOperationException)
+            {
+                MessageBox.Show(this, "Movie already exists", "Updated Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch (ArgumentException)
+            {
+                MessageBox.Show(this, "You messed up dude", "Updated Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            } catch (Exception ex)
+            {
+                //Error handling
+                MessageBox.Show(this, ex.Message, "Updated Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            };
         } while (true);
 
         RefreshMovies();
@@ -90,7 +118,13 @@ public partial class MainForm : Form
             return;
 
         //Delete movie
-        _database.Delete(movie.Id);
+        try
+        {
+            _database.Delete(movie.Id);
+        } catch (Exception ex)
+        {
+            MessageBox.Show(this, ex.Message, "Delete Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        };
         RefreshMovies();
     }
 
@@ -115,24 +149,33 @@ public partial class MainForm : Form
 
     private void RefreshMovies ( bool initial = false )
     {
-        _lstMovies.DataSource = null;
+        //_lstMovies.DataSource = null;
 
-        IEnumerable<Movie> movies = _database.GetAll();
-
-        //Seed database if desired
-        if (initial && !movies.Any() && Confirm("Seed", "Do you want to seed the database with movies?"))
+        IEnumerable<Movie> movies = null;
+        try
         {
-            _database.Seed();
-
             movies = _database.GetAll();
-        };
 
-        movies = from m in movies
-                 orderby m.Title, m.ReleaseYear descending
-                 select m;
-        _lstMovies.DataSource = movies.ToArray();
+            //Seed database if desired
+            if (initial && !movies.Any() && Confirm("Seed", "Do you want to seed the database with movies?"))
+            {
+                _database.Seed();
+
+                movies = _database.GetAll();
+            };
+
+            movies = from m in movies
+                        orderby m.Title, m.ReleaseYear descending
+                        select m;
+        } catch (Exception ex)
+        {
+            MessageBox.Show(this, "Unable to retrieve movies.", "Get Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        } finally
+        {
+            _lstMovies.DataSource = movies?.ToArray();
+        };                
     }
 
-    private readonly IMovieDatabase _database = new MemoryMovieDatabase();
+    private readonly IMovieDatabase _database = new IO.CsvMovieDatabase("movies.csv");
     #endregion
 }

@@ -11,6 +11,7 @@ public class MemoryMovieDatabase : MovieDatabase
     /// <inheritdoc />
     protected override Movie AddCore ( Movie movie )
     {
+        throw new NotSupportedException();
         movie.Id = _id++;
         _movies.Add(Clone(movie));
 
