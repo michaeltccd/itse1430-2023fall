@@ -122,26 +122,17 @@ public partial class MainForm : Form
         //Seed database if desired
         if (initial && !movies.Any() && Confirm("Seed", "Do you want to seed the database with movies?"))
         {
-            //DatabaseSeeder.Seed(_database);
             _database.Seed();
 
             movies = _database.GetAll();
         };
 
-        //var typedMovies = movies.OfType<Movie>();
-        //movies = movies.OrderBy();
         movies = from m in movies
                  orderby m.Title, m.ReleaseYear descending
                  select m;
-        //movies.OrderBy(x => x.Title)
-        //        .ThenByDescending(x => x.ReleaseYear);
-
-        //var source = new BindingSource() {
-        //    DataSource = movies
-        //};
         _lstMovies.DataSource = movies.ToArray();
     }
 
-    private IMovieDatabase _database = new MemoryMovieDatabase();
+    private readonly IMovieDatabase _database = new MemoryMovieDatabase();
     #endregion
 }

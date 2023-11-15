@@ -1,7 +1,14 @@
-﻿namespace MovieLibrary;
+﻿/*
+ * ITSE 1430 
+ * Fall 2023
+ */
+namespace MovieLibrary;
 
+/// <summary>Provides extension methods for <see cref="IMovieDatabase"/>.</summary>
 public static class DatabaseSeeder
 {
+    /// <summary>Seeds a database with movies.</summary>
+    /// <param name="database">Database to seed.</param>
     public static void Seed ( this IMovieDatabase database )
     {
         //Set up movies

@@ -41,8 +41,6 @@ public class Movie : IValidatableObject
     {
         get => _title ?? "";
         set => _title = value?.Trim() ?? "";
-        //get { return _title ?? ""; }
-        //set { _title = value?.Trim() ?? ""; }
     }
 
     /// <summary>Gets or sets the optional description.</summary>
@@ -74,12 +72,7 @@ public class Movie : IValidatableObject
     public bool IsBlackAndWhite { get; set; }
 
     /// <summary>Determines if the movie needs an intermission.</summary>
-    /// <value>Any movie that is at least 2 and a half hours needs an intermission.</value>
-    //public bool NeedsIntermission
-    //{
-    //    get { return RunLength >= 150; }
-    //}
-    //public bool NeedsIntermission = RunLength >= 150;
+    /// <value>Any movie that is at least 2 and a half hours needs an intermission.</value>    
     public bool NeedsIntermission => RunLength >= 150;
 
     /// <summary>Minimum release year.</summary>

@@ -31,12 +31,13 @@ public static class ObjectValidator
         return false;
     }
 
+    /// <summary>Validates an object.</summary>
+    /// <param name="value">Value to validate.</param>
+    /// <exception cref="ValidationException"><paramref name="value"/> is invalid.</exception>
     public static void Validate ( IValidatableObject value )
     {
         var context = new ValidationContext(value);
 
         Validator.ValidateObject(value, context, true);
     }
-
-    //private int _notUsed;
 }
