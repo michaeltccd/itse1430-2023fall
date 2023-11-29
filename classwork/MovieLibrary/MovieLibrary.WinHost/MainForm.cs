@@ -174,6 +174,6 @@ public partial class MainForm : Form
         };                
     }
 
-    private readonly IMovieDatabase _database = new IO.CsvMovieDatabase("movies.csv");
+    private readonly IMovieDatabase _database = new Sql.SqlMovieDatabase(Program.GetConnectionString("MovieDatabase"));//new IO.CsvMovieDatabase("movies.csv");
     #endregion
 }
