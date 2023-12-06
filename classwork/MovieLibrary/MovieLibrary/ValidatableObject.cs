@@ -5,6 +5,7 @@
 namespace MovieLibrary;
 
 /// <summary>Provides a base class for validating objects.</summary>
+[Obsolete("Use IValidatableObject instead")]
 public class ValidatableObject
 {
     /// <summary>Determines if the object is valid.</summary>
@@ -17,7 +18,7 @@ public class ValidatableObject
     /// <param name="message">Error message if invalid.</param>
     /// <returns>true if valid or false otherwise.</returns>
     public virtual bool TryValidate ( out string message )
-    {
+    {                
         message = "";
         return true;
     }

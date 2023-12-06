@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 namespace MovieLibrary;
 
 /// <summary>Represents a movie.</summary>
+//[Required] Not allowed
 public class Movie : IValidatableObject
 {
     #region Construction
@@ -37,6 +38,12 @@ public class Movie : IValidatableObject
     public int Id { get; set; }
 
     /// <summary>Gets or sets the title of movie.</summary>
+    [Required(AllowEmptyStrings = false)]  //Checks for null
+    [StringLength(100)]    
+    //[Required, StringLength(100)]
+    //[Required]
+    //[RequiredAttribute()]
+    //[Required()]
     public string Title
     {
         get => _title ?? "";
@@ -58,14 +65,17 @@ public class Movie : IValidatableObject
     }
 
     /// <summary>Gets or sets the MPAA rating.</summary>
+    //[StringLength(20)]
     public Rating Rating { get; set; }
     
     /// <summary>Gets or sets the run length.</summary>
     /// <value>Must be at least zero.</value>
+    [Range(0, Int32.MaxValue, ErrorMessage = "Run length must be at least zero.")]
     public int RunLength { get; set; }
-    
+
     /// <summary>Gets or sets the release year.</summary>
     /// <value>Must be at least 1900.</value>
+    [Range(MinimumReleaseYear, 2100)] //Requires parameters to be used
     public int ReleaseYear { get; set; } = MinimumReleaseYear;
 
     /// <summary>Determines if the movie is black and white or color.</summary>
@@ -87,17 +97,17 @@ public class Movie : IValidatableObject
     /// <inheritdoc />
     public IEnumerable<ValidationResult> Validate ( ValidationContext validationContext )
     {
-        //Title is required
-        if (String.IsNullOrEmpty(_title))
-            yield return new ValidationResult("Title is required");
+        ////Title is required
+        //if (String.IsNullOrEmpty(_title))
+        //    yield return new ValidationResult("Title is required");
 
-        //Release Year >= 1900
-        if (ReleaseYear < MinimumReleaseYear)
-            yield return new ValidationResult($"Release Year must be >= {MinimumReleaseYear}");
+        ////Release Year >= 1900
+        //if (ReleaseYear < MinimumReleaseYear)
+        //    yield return new ValidationResult($"Release Year must be >= {MinimumReleaseYear}");
 
-        //Length >= 0
-        if (RunLength < 0)
-            yield return new ValidationResult("Length must be at least 0");
+        ////Length >= 0
+        //if (RunLength < 0)
+        //    yield return new ValidationResult("Length must be at least 0");
 
         if (ReleaseYear < 1940 && !IsBlackAndWhite)
             yield return new ValidationResult("Movies before 1940 must be black and white");            

@@ -175,5 +175,7 @@ public partial class MainForm : Form
     }
 
     private readonly IMovieDatabase _database = new Sql.SqlMovieDatabase(Program.GetConnectionString("MovieDatabase"));//new IO.CsvMovieDatabase("movies.csv");
+
+    private ValidatableObject _notUsed;
     #endregion
 }
